@@ -33,12 +33,7 @@ const Movies = () => {
   };
 
   return (
-    <div
-      style={{
-        margin: '0 auto',
-        padding: '20px',
-      }}
-    >
+    <div>
       <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
         <input
           type="text"
@@ -53,56 +48,15 @@ const Movies = () => {
 
       {error && <div>Error loading movies!</div>}
 
-      <ul
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '20px',
-          padding: '0',
-          margin: '0',
-        }}
-      >
+      <ul>
         {searchResults.map(movie => {
           const imgUrl = movie.poster_path
             ? `${IMAGE_BASE_URL}${movie.poster_path}`
             : null;
           return (
-            <li
-              key={movie.id}
-              style={{
-                listStyleType: 'none',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '10px',
-                width: '200px',
-                marginBottom: '10px',
-                padding: '8px',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <Link
-                to={`/movies/${movie.id}`}
-                style={{
-                  textDecoration: 'none',
-                  color: 'black',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '10px',
-                }}
-              >
-                {imgUrl && (
-                  <img
-                    src={imgUrl}
-                    alt={movie.title}
-                    style={{
-                      width: '100%',
-                      borderRadius: '8px',
-                      height: 'auto',
-                    }}
-                  />
-                )}
+            <li key={movie.id}>
+              <Link to={`/movies/${movie.id}`}>
+                {imgUrl && <img src={imgUrl} alt={movie.title} />}
                 <span style={{ fontSize: '16px', fontWeight: '500' }}>
                   {movie.title}
                 </span>
