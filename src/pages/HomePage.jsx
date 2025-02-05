@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -37,7 +38,11 @@ const HomePage = () => {
       <h1>Trending today</h1>
       <ul>
         {trendingMovies.map(movie => {
-          return <li key={movie.id}>{movie.title}</li>;
+          return (
+            <li key={movie.id}>
+              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
+            </li>
+          );
         })}
       </ul>
     </div>
