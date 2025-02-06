@@ -35,8 +35,19 @@ const Reviews = () => {
   if (error) {
     return <div>{error}</div>;
   }
-
-  return <div></div>;
+  if (reviews.length === 0) {
+    return <div>No reviews available</div>;
+  }
+  return (
+    <div>
+      {reviews.map(review => (
+        <ul key={review.id}>
+          <p>{review.author}</p>
+          <p>{review.content}</p>
+        </ul>
+      ))}
+    </div>
+  );
 };
 
 export default Reviews;
