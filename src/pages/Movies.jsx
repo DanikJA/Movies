@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
@@ -10,6 +10,7 @@ const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(false);
+  const location = useLocation();
 
   const handleChange = e => {
     setSearchQuery(e.target.value);
@@ -52,7 +53,7 @@ const Movies = () => {
             : null;
           return (
             <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>
+              <Link to={`/movies/${movie.id}`} state={{ location }}>
                 {imgUrl && <img src={imgUrl} alt={movie.title} />}
                 {movie.title}
               </Link>

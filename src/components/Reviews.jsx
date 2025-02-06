@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
-// const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const Reviews = () => {

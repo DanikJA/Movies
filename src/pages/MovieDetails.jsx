@@ -1,4 +1,4 @@
-import { Outlet, useParams, Link } from 'react-router-dom';
+import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +10,8 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const [movieDetails, setMovieDetails] = useState([]);
   const [error, setError] = useState(false);
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -38,6 +40,8 @@ const MovieDetails = () => {
 
   return (
     <div>
+      <Link to={from}>Go back</Link>
+
       <h1>{movieDetails.title}</h1>
       {movieDetails.poster_path && (
         <img
@@ -58,10 +62,14 @@ const MovieDetails = () => {
       <nav>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <Link to="cast" state={{ location }}>
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Link to="reviews" state={{ location }}>
+              Reviews
+            </Link>
           </li>
         </ul>
       </nav>
