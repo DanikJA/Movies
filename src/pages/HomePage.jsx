@@ -1,6 +1,14 @@
+import {
+  Container,
+  Title,
+  MovieList,
+  MovieItem,
+  MovieLink,
+  ErrorMessage,
+  LoadingMessage,
+} from './HomePageStyled';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -26,26 +34,24 @@ const HomePage = () => {
   }, []);
 
   if (error) {
-    return <div>Error loading movies!</div>;
+    return <ErrorMessage>Error loading movies!</ErrorMessage>;
   }
 
   if (trendingMovies.length === 0) {
-    return <div>Loading...</div>;
+    return <LoadingMessage>Loading...</LoadingMessage>;
   }
 
   return (
-    <div>
-      <h1>Trending today</h1>
-      <ul>
-        {trendingMovies.map(movie => {
-          return (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <Container>
+      <Title>Trending today</Title>
+      <MovieList>
+        {trendingMovies.map(movie => (
+          <MovieItem key={movie.id}>
+            <MovieLink to={`/movies/${movie.id}`}>{movie.title}</MovieLink>
+          </MovieItem>
+        ))}
+      </MovieList>
+    </Container>
   );
 };
 
