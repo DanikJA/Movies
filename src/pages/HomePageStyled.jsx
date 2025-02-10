@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   font-family: 'Arial', sans-serif;
-  padding: 20px;
 `;
 
 export const Title = styled.h1`
   text-align: center;
-  font-size: 2rem;
+  font-size: 35px;
   color: #333;
 `;
 

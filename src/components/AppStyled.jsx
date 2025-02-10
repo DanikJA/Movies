@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const Header = styled.header`
   background-color: #333;
-  padding: 20px 0;
+  padding: 40px 0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
@@ -22,7 +22,7 @@ export const NavList = styled.ul`
 `;
 
 export const NavItem = styled.li`
-  margin: 0 20px;
+  margin: 0 15px;
 `;
 
 export const StyledNavLink = styled(NavLink)`

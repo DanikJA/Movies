@@ -1,7 +1,16 @@
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import {
+  CastContainer,
+  CastList,
+  CastItem,
+  ActorImage,
+  ActorName,
+  ActorCharacter,
+  ErrorMessage,
+  NoCast,
+} from './CastStyled';
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -29,30 +38,33 @@ const Cast = () => {
     };
     fetchCastData();
   }, [movieId]);
-  console.log(cast);
+
   if (error) {
-    return <div>{error}</div>;
+    return <ErrorMessage>{error}</ErrorMessage>;
   }
 
   return (
-    <div>
+    <CastContainer>
       <h2>Cast</h2>
-      <ul>
-        {cast.map(actor => (
-          <li key={actor.id}>
-            {actor.profile_path && (
-              <img
-                src={`${IMAGE_BASE_URL}${actor.profile_path}`}
-                alt={actor.name}
-                width={'70'}
-              />
-            )}
-            <p>{actor.name}</p>
-            <p>Character: {actor.character}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+      {cast.length > 0 ? (
+        <CastList>
+          {cast.map(actor => (
+            <CastItem key={actor.id}>
+              {actor.profile_path && (
+                <ActorImage
+                  src={`${IMAGE_BASE_URL}${actor.profile_path}`}
+                  alt={actor.name}
+                />
+              )}
+              <ActorName>{actor.name}</ActorName>
+              <ActorCharacter>Character: {actor.character}</ActorCharacter>
+            </CastItem>
+          ))}
+        </CastList>
+      ) : (
+        <NoCast>Cast information is not available.</NoCast>
+      )}
+    </CastContainer>
   );
 };
 
