@@ -1,6 +1,21 @@
-import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {
+  Container,
+  BackLink,
+  MovieWrapper,
+  Poster,
+  MovieInfo,
+  Title,
+  Overview,
+  ReleaseDate,
+  Rating,
+  Nav,
+  StyledLink,
+  Error,
+  Loading,
+} from './MovieDetailsStyled';
 
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
@@ -31,46 +46,47 @@ const MovieDetails = () => {
   }, [movieId]);
 
   if (error) {
-    return <div>{error}</div>;
+    return <Error>{error}</Error>;
   }
 
   if (!movieDetails) {
-    return <div>Loading...</div>;
+    return <Loading>Loading...</Loading>;
   }
 
   return (
-    <div>
-      <Link to={from}>Go back</Link>
+    <Container>
+      <BackLink to={from}>Go back</BackLink>
 
-      <h1>{movieDetails.title}</h1>
-      {movieDetails.poster_path && (
-        <img
+      <MovieWrapper>
+        <Poster
           src={`${IMAGE_BASE_URL}${movieDetails.poster_path}`}
           alt={movieDetails.title}
         />
-      )}
-      <p>{movieDetails.overview}</p>
-      <p>
-        <strong>Release Date:</strong>
-        {movieDetails.release_date}
-      </p>
-      <p>
-        <strong>Rating:</strong>
-        {movieDetails.vote_average}
-      </p>
+        <MovieInfo>
+          <Title>{movieDetails.title}</Title>
+          <Overview>{movieDetails.overview}</Overview>
+          <ReleaseDate>
+            <strong>Release Date:</strong> {movieDetails.release_date}
+          </ReleaseDate>
+          <Rating>
+            <strong>Rating:</strong> {movieDetails.vote_average}
+          </Rating>
+        </MovieInfo>
+      </MovieWrapper>
 
-      <nav>
+      <Nav>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <StyledLink to="cast">Cast</StyledLink>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <StyledLink to="reviews">Reviews</StyledLink>
           </li>
         </ul>
-      </nav>
+      </Nav>
+
       <Outlet />
-    </div>
+    </Container>
   );
 };
 

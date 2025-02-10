@@ -1,7 +1,18 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
-
+import {
+  Container,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+  ErrorMessage,
+  MovieList,
+  MovieItem,
+  PosterImage,
+  MovieTitle,
+  NoResults,
+} from './MovieStyled';
 const API_KEY = 'a4e0e6c94492c515df52f4a6ebcc54c7';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const BASE_URL = 'https://api.themoviedb.org/3';
@@ -34,34 +45,39 @@ const Movies = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
+    <Container>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchInput
           type="text"
           placeholder="Search for movies"
           onChange={handleChange}
+          value={searchQuery}
         />
-        <button type="submit">Search</button>
-      </form>
+        <SearchButton type="submit">Search</SearchButton>
+      </SearchForm>
 
-      {error && <div>Error loading movies!</div>}
+      {error && <ErrorMessage>Error loading movies!</ErrorMessage>}
 
-      <ul>
-        {searchResults.map(movie => {
-          const imgUrl = movie.poster_path
-            ? `${IMAGE_BASE_URL}${movie.poster_path}`
-            : null;
-          return (
-            <li key={movie.id}>
-              <Link to={`/movies/${movie.id}`} state={{ location }}>
-                {imgUrl && <img src={imgUrl} alt={movie.title} />}
-                {movie.title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+      {searchResults.length > 0 ? (
+        <MovieList>
+          {searchResults.map(movie => {
+            const imgUrl = movie.poster_path
+              ? `${IMAGE_BASE_URL}${movie.poster_path}`
+              : null;
+            return (
+              <MovieItem key={movie.id}>
+                <Link to={`/movies/${movie.id}`} state={{ location }}>
+                  {imgUrl && <PosterImage src={imgUrl} alt={movie.title} />}
+                  <MovieTitle>{movie.title}</MovieTitle>
+                </Link>
+              </MovieItem>
+            );
+          })}
+        </MovieList>
+      ) : (
+        <NoResults>No results found</NoResults>
+      )}
+    </Container>
   );
 };
 
