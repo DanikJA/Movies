@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -22,6 +22,12 @@ const Movies = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.searchResults) {
+      setSearchResults(location.state.searchResults);
+    }
+  }, [location.state]);
 
   const handleChange = e => {
     setSearchQuery(e.target.value);
@@ -68,7 +74,7 @@ const Movies = () => {
               <MovieItem key={movie.id}>
                 <Link
                   to={`/movies/${movie.id}`}
-                  state={{ from: location.pathname }}
+                  state={{ from: location.pathname, searchResults }}
                 >
                   {imgUrl && <PosterImage src={imgUrl} alt={movie.title} />}
                   <MovieTitle>{movie.title}</MovieTitle>
