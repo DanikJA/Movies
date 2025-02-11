@@ -26,7 +26,7 @@ const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState([]);
   const [error, setError] = useState(false);
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const from = location.state?.from || '/movies';
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
