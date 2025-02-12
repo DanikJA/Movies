@@ -79,10 +79,7 @@ const Movies = () => {
               : null;
             return (
               <MovieItem key={movie.id}>
-                <Link
-                  to={`/movies/${movie.id}`}
-                  state={{ from: location.pathname }}
-                >
+                <Link to={`/movies/${movie.id}`} state={{ from: location }}>
                   {imgUrl && <PosterImage src={imgUrl} alt={movie.title} />}
                   <MovieTitle>{movie.title}</MovieTitle>
                 </Link>
