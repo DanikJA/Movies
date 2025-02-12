@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import {
   Container,
   SearchForm,
@@ -21,13 +21,30 @@ const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [error, setError] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
 
   useEffect(() => {
-    if (location.state?.searchResults) {
-      setSearchResults(location.state.searchResults);
+    const query = searchParams.get('query');
+    if (query) {
+      fetchMovies(query);
     }
-  }, [location.state]);
+  }, [searchParams]);
+
+  const fetchMovies = async query => {
+    try {
+      const response = await axios.get(`${BASE_URL}/search/movie`, {
+        params: {
+          api_key: API_KEY,
+          query,
+        },
+      });
+
+      setSearchResults(response.data.results);
+    } catch (error) {
+      setError(true);
+    }
+  };
 
   const handleChange = e => {
     setSearchQuery(e.target.value);
@@ -36,18 +53,8 @@ const Movies = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     if (!searchQuery) return;
-    try {
-      const response = await axios.get(`${BASE_URL}/search/movie`, {
-        params: {
-          api_key: API_KEY,
-          query: searchQuery,
-        },
-      });
-
-      setSearchResults(response.data.results);
-    } catch (error) {
-      setError(true);
-    }
+    setSearchParams({ query: searchQuery });
+    fetchMovies(searchQuery);
   };
 
   return (
@@ -74,7 +81,7 @@ const Movies = () => {
               <MovieItem key={movie.id}>
                 <Link
                   to={`/movies/${movie.id}`}
-                  state={{ from: location.pathname, searchResults }}
+                  state={{ from: location.pathname }}
                 >
                   {imgUrl && <PosterImage src={imgUrl} alt={movie.title} />}
                   <MovieTitle>{movie.title}</MovieTitle>
