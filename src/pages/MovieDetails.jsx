@@ -1,6 +1,6 @@
 import { Outlet, useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Container,
   BackLink,
@@ -26,7 +26,8 @@ const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState([]);
   const [error, setError] = useState(false);
   const location = useLocation();
-  const from = location.state?.from || '/movies';
+  const backLinkRef = useRef(location);
+  const from = backLinkRef.current.state?.from ?? '/';
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
